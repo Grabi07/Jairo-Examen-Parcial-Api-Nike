@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike Store | Admin</title>
+    <link rel="stylesheet" href="nike.css">
+</head>
+<body>
+
+
+<header class="header-center">
+    <div class="nike-brand">
+        <img src="https://media.about.nike.com/image-downloads/cf68f541-fc92-4373-91cb-086ae0fe2f88/002-nike-logos-swoosh-white.jpg" class="logo-top">
+        <h1 class="nike-title">NIKE</h1>
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- Formulario para agregar productos-->
+    <section class="form-section">
+        <h2>Agregar Producto Nike</h2>
+
+        <form id="productForm">
+            <input type="text" id="producto" placeholder="Nombre del producto" required>
+            <input type="text" id="categoria" placeholder="Categoría (Zapatillas, Ropa...)" required>
+            <input type="text" id="talla" placeholder="Talla (Opcional)">
+            <input type="number" id="precio" placeholder="Precio $" required>
+            <input type="number" id="stock" placeholder="Stock" required>
+            <input type="text" id="imagen" placeholder="URL de Imagen" required>
+
+            <button type="submit">Guardar Producto</button>
+        </form>
+    </section>
+
+   
+    <section class="products-section">
+        <img src="https://wearecoolbox.com/wp-content/uploads/2023/05/Nike-Logo.png" class="logo-top">
+        <h2 class="titulo-productos">Productos Nike</h2>
+
+        <div id="productList" class="product-grid"></div>
+    </section>
+
+</main>
+
+<script>
+// Configuración de la api
+const API_URL = "http://localhost:3000/api/nike";
+
+document.addEventListener("DOMContentLoaded", cargarProductos);
+
+// Obtener los productos
+async function cargarProductos() {
+    try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        mostrarProductos(data.productos);
+    } catch (err) {
+        console.error("Error al cargar:", err);
+    }
+}
+
+function mostrarProductos(productos) {
+    const productList = document.getElementById("productList");
+    productList.innerHTML = "";
+
+    productos.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "product-card";
+        div.innerHTML = `
+            <img src="${p.imagen}" alt="${p.producto}">
+            <h3>${p.producto}</h3>
+            <p><strong>Categoría:</strong> ${p.categoria}</p>
+            <p><strong>Talla:</strong> ${p.talla || "N/A"}</p>
+            <p><strong>Precio:</strong> $${p.precio}</p>
+            <p><strong>Stock:</strong> ${p.stock}</p>
+
+            <button class="btn-editar" onclick="editarProducto('${p._id}')">✏ Editar</button>
+            <button class="btn-eliminar" onclick="eliminarProducto('${p._id}')">🗑 Eliminar</button>
+        `;
+        productList.appendChild(div);
+    });
+}
+
+// Guardar productos (POST)
+document.getElementById("productForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nuevoProd = {
+        producto: document.getElementById("producto").value,
+        categoria: document.getElementById("categoria").value,
+        talla: document.getElementById("talla").value,
+        precio: parseFloat(document.getElementById("precio").value),
+        stock: parseInt(document.getElementById("stock").value),
+        imagen: document.getElementById("imagen").value
+    };
+
+    await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevoProd)
+    });
+
+    alert("✔ Producto guardado con éxito");
+    cargarProductos();
+});
+
+// ============= 🌟 NUEVO: EDITAR ============
+async function editarProducto(id) {
+    const nuevoPrecio = prompt("💲 Nuevo precio:");
+    const nuevoStock = prompt("📦 Nuevo stock:");
+
+    if (nuevoPrecio === null || nuevoStock === null) return;
+
+    await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ precio: nuevoPrecio, stock: nuevoStock })
+    });
+
+    alert("✏ Producto actualizado");
+    cargarProductos();
+}
+
+// ============= 🗑 NUEVO: ELIMINAR ============
+async function eliminarProducto(id) {
+    if (!confirm("❗¿Seguro que deseas eliminar este producto?")) return;
+
+    await fetch(`${API_URL}/${id}`, {
+        method: "DELETE"
+    });
+
+    alert("🗑 Producto eliminado");
+    cargarProductos();
+}
+
+</script>
+
+</body>
+</html>

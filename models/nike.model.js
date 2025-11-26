@@ -24,10 +24,13 @@ const nikeSchema = new mongoose.Schema({
   disponible: {
     type: Boolean,
     default: true
+  },
+  imagen: {     // ⚠️ CAMPO AGREGADO PARA MOSTRAR IMAGEN
+    type: String,
+    required: true
   }
 });
 
 const Nike = mongoose.model("Nike", nikeSchema);
 
 export default Nike;
-

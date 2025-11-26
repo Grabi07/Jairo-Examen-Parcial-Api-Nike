@@ -1,0 +1,154 @@
+
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: #f6f6f6;
+  color: #111;
+}
+
+/* Nike */
+.header-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+  background: #000;
+  border-bottom: 5px solid #e60023;
+}
+
+.nike-brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-top {
+  width: 140px;
+  filter: brightness(100);
+}
+
+.nike-title {
+  font-size: 60px;
+  font-style: italic;
+  letter-spacing: 5px;
+  margin: 0;
+  padding-top: 8px;
+  font-weight: 900;
+  color: white;
+}
+
+/* ====== LAYOUT ====== */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 25px;
+  padding: 25px;
+}
+
+/* ====== BLOQUES ====== */
+.form-section, .products-section {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  border: 3px solid red;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+}
+
+.form-section h2, .products-section h2 {
+  font-weight: 900;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* ====== FORMULARIO ====== */
+form input, form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+form input:focus {
+  border-color: #E60023;
+  outline: none;
+}
+
+form button {
+  background: #000;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.3s;
+  border: 2px solid red;
+}
+
+form button:hover {
+  background: #444;
+}
+
+/* ====== PRODUCTOS ====== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  border-radius: 15px;
+  padding: 15px;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  border: 2px solid red;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+}
+
+.product-card h3 {
+  margin: 10px 0;
+}
+
+.product-card p {
+  margin: 4px 0;
+}
+.titulo-productos {
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.btn-editar, .btn-eliminar {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+}
+
+.btn-editar {
+    background: orange;
+    color: white;
+}
+
+.btn-eliminar {
+    background: red;
+    color: white;
+}
+
+.btn-editar:hover {
+    background: #c87f00;
+}
+
+.btn-eliminar:hover {
+    background: #b30000;
+}
